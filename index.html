@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ketty 987 - Iscrizione Lista Broadcast</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #fdf6e3;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+    }
+    header img {
+      max-width: 250px;
+    }
+    form {
+      background-color: #fff3d1;
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+    .checkbox-group {
+      margin-top: 1rem;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-group input {
+      margin-right: 0.5rem;
+    }
+    button {
+      margin-top: 2rem;
+      background-color: #ffcc00;
+      color: black;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .confirmation {
+      display: none;
+      margin-top: 2rem;
+      color: #cc9900;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Logo_orizzontale_2000x2000.png" alt="Ketty 987 Lounge Pub">
+    <h1>Iscriviti alla Lista Broadcast!</h1>
+    <p>Ricevi offerte, sconti e novità esclusive.</p>
+  </header>
+
+  <form id="broadcastForm">
+    <label>Nome e Cognome
+      <input type="text" name="nome" required>
+    </label>
+    <label>Numero WhatsApp
+      <input type="text" name="telefono" required>
+    </label>
+    <label>Email (facoltativa)
+      <input type="email" name="email">
+    </label>
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="consenso" required> Acconsento al trattamento dei dati secondo il GDPR</label>
+    </div>
+
+    <button type="submit">Iscrivimi</button>
+  </form>
+
+  <div class="confirmation" id="confirmationMessage">
+    Grazie! Sei stato aggiunto alla nostra lista 🍻
+  </div>
+
+  <script>
+    const form = document.getElementById('broadcastForm');
+    const confirmation = document.getElementById('confirmationMessage');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      let row = `${data.nome},${data.telefono},${data.email || ''},${data.consenso ? 'Sì' : 'No'}\n`;
+
+      let blob = new Blob([row], { type: 'text/csv' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `ketty987_contatto_${Date.now()}.csv`;
+      link.click();
+
+      form.reset();
+      confirmation.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
